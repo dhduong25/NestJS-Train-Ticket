@@ -18,7 +18,6 @@
         "strictBindCallApply": false,
         "noFallthroughCasesInSwitch": false,
         "paths": {
-            "utils/*": ["src/utils/*"],
             "config/*": ["src/config/*"]
         },
         "esModuleInterop": true

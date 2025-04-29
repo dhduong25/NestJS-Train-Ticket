@@ -1,8 +1,8 @@
 import { Exclude } from '@nestjs/class-transformer';
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
-import { BaseEntity } from 'utils/entities';
 import * as bcrypt from 'bcryptjs';
 import _ from 'lodash';
+import { BaseEntity } from '../../../utils';
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
