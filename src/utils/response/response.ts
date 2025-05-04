@@ -3,18 +3,18 @@ import { ErrorInterface, ErrorsDetails, Result, SuccessInterface } from './inter
 
 export class Response {
     public static ok<T>(data: T, code?: string, message?: string, status?: HttpStatus): Result {
-        return this.successResponse<T>(data, code, message, status);
+        return this.successResponse<T>(data, code ?? '000', message ?? 'ok', status ?? HttpStatus.OK);
     }
 
-    public static created<T>(data: T, code: string, message: string): Result {
-        return this.successResponse(data, code, message, HttpStatus.CREATED);
+    public static created<T>(data: T, code?: string, message?: string): Result {
+        return this.successResponse(data, code ?? '000', message ?? 'created', HttpStatus.CREATED);
     }
 
     public static error(
         code: string,
         status: HttpStatus,
         message: string,
-        details: ErrorsDetails[],
+        details?: ErrorsDetails[],
     ): Result {
         return this.errorResponse(code, status, message, details);
     }

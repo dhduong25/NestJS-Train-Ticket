@@ -1,8 +1,8 @@
-import { Exclude } from '@nestjs/class-transformer';
+import { Exclude } from 'class-transformer';
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import _ from 'lodash';
-import { BaseEntity } from '../../../utils';
+import { BaseEntity } from 'utils/entities';
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
@@ -10,7 +10,7 @@ export class UserEntity extends BaseEntity {
     email: string;
 
     @Column({ type: String, length: 200, select: false, nullable: false })
-    @Exclude({ toClassOnly: false, toPlainOnly: true })
+    @Exclude()
     password: string;
 
     @Column({ type: String, length: 200, nullable: false })
@@ -19,7 +19,7 @@ export class UserEntity extends BaseEntity {
     @Column({ type: String, length: 200 })
     address: string;
 
-    @Column({ type: 'date' })
+    @Column({ type: 'date', nullable: true })
     birthDay: Date;
 
     @BeforeInsert()
