@@ -1,5 +1,5 @@
-import { ErrorInterface } from './error.interface';
-import { SuccessInterface } from './success.interface';
+import { ErrorInterface } from 'utils/response';
+import { SuccessInterface } from 'utils/response';
 
 export * from './success.interface';
 export * from './error.interface';

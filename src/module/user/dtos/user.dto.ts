@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { BaseDTO } from 'utils/dtos';
 
 export class UserDTO extends BaseDTO {
@@ -14,6 +14,6 @@ export class UserDTO extends BaseDTO {
     @IsString()
     address: string;
 
-    @IsString()
+    @IsOptional()
     birthDay: Date;
 }
