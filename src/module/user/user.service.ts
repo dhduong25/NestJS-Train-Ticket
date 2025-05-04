@@ -28,7 +28,8 @@ export class UserService {
             throw new BadReqException('000', HttpStatus.BAD_REQUEST, 'Email is already existing use');
         }
 
-        return await this.userRepository.repository.save(req);
+        const user: UserEntity = this.userRepository.repository.create(req);
+        return await this.userRepository.repository.save(user);
     }
 
     private async update(req: CreateUserDTO): Promise<UserEntity> {
