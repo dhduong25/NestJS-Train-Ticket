@@ -16,6 +16,10 @@ export class UserService {
         return Response.ok(user.id);
     }
 
+    public async remove() {
+        return await this.userRepository.delete({ id: '01', action: 'SOFT' });
+    }
+
     public async details(id: string) {
         return Response.ok(instanceToPlain(await this.userRepository.repository.find({ where: { id } })));
     }
@@ -28,8 +32,7 @@ export class UserService {
             throw new BadReqException('000', HttpStatus.BAD_REQUEST, 'Email is already existing use');
         }
 
-        const user: UserEntity = this.userRepository.repository.create(req);
-        return await this.userRepository.repository.save(user);
+        return await this.userRepository.create(req);
     }
 
     private async update(req: CreateUserDTO): Promise<UserEntity> {
