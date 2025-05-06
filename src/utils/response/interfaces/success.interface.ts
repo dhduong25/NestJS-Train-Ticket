@@ -6,3 +6,11 @@ export interface SuccessInterface {
     status?: HttpStatus;
     data: any;
 }
+
+export interface PagingResponseInterface<T> {
+    page: number;
+    pageSize: number;
+    pageTotal: number;
+    totalContent: number;
+    content: T[];
+}
