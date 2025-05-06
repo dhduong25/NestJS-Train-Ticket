@@ -1,6 +1,8 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { DeepPartial, FindOptionsWhere, Repository } from 'typeorm';
+import { PaginationDto } from 'utils/dtos';
 import { BadReqException } from 'utils/exception';
+import { Response, Result } from 'utils/response';
 import { BaseEntity } from '../../entities';
 import { RepositoryInterface } from '../interfaces';
 
@@ -27,12 +29,19 @@ export class RepositoryImplementation<T extends BaseEntity> implements Repositor
         return await this.typeOrmRepository.save(t);
     }
 
-    public async findAll(): Promise<T[]> {
-        return this.typeOrmRepository.find({});
-    }
-
-    public async findAllWithPage(): Promise<T[]> {
-        return this.typeOrmRepository.find({});
+    public async findAll(
+        req: PaginationDto,
+        params: FindOptionsWhere<T>,
+        action: 'PAGE' | 'NOT_PAGE',
+    ): Promise<Result> {
+        switch (action) {
+            case 'NOT_PAGE':
+                return Response.ok(await this.typeOrmRepository.find({}));
+            case 'PAGE':
+                return Response.error('999', HttpStatus.BAD_REQUEST, 'Action invalid');
+            default:
+                return Response.error('999', HttpStatus.BAD_REQUEST, 'Action invalid');
+        }
     }
 
     public async existing(id: string, fieldValue: any, fieldName: keyof T): Promise<boolean> {

@@ -1,13 +1,13 @@
 import { DeepPartial, FindOptionsWhere } from 'typeorm';
+import { PaginationDto } from 'utils/dtos';
+import { Result } from 'utils/response';
 
 export interface RepositoryInterface<T> {
-    findAll(): Promise<T[]>;
+    findAll(req: PaginationDto, params: FindOptionsWhere<T>, action: 'PAGE' | 'NOT_PAGE'): Promise<Result | void>;
 
     create(data: T | DeepPartial<T>): Promise<T>;
 
     existing(id: string, fieldValue: any, fieldName: keyof T): Promise<boolean>;
-
-    findAllWithPage(): Promise<T[]>;
 
     delete(options: {
         id?: string;

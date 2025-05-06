@@ -1,13 +1,33 @@
 import { HttpStatus } from '@nestjs/common';
-import { ErrorInterface, ErrorsDetails, Result, SuccessInterface } from './interfaces';
+import {
+    ErrorInterface,
+    ErrorsDetails,
+    PagingResponseInterface,
+    Result,
+    SuccessInterface,
+} from './interfaces';
 
 export class Response {
-    public static ok<T>(data: T, code?: string, message?: string, status?: HttpStatus): Result {
-        return this.successResponse<T>(data, code ?? '000', message ?? 'ok', status ?? HttpStatus.OK);
+    public static ok<T>(
+        data: T,
+        code: string = '000',
+        message: string = 'OK',
+        status: HttpStatus = HttpStatus.OK,
+    ): Result {
+        return this.successResponse<T>(data, code, message, status);
     }
 
-    public static created<T>(data: T, code?: string, message?: string): Result {
-        return this.successResponse(data, code ?? '000', message ?? 'created', HttpStatus.CREATED);
+    public static page<T>(
+        pageData: PagingResponseInterface<T>,
+        code: string = '000',
+        message: string = 'PAGE',
+        status: HttpStatus = HttpStatus.OK,
+    ): Result {
+        return this.successResponse(pageData, code, message, status ?? HttpStatus.OK);
+    }
+
+    public static created<T>(data: T, code: string = '000', message: string = 'CREATE'): Result {
+        return this.successResponse(data, code, message, HttpStatus.CREATED);
     }
 
     public static error(
