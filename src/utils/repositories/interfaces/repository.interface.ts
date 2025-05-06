@@ -3,7 +3,7 @@ import { PaginationDto } from 'utils/dtos';
 import { Result } from 'utils/response';
 
 export interface RepositoryInterface<T> {
-    findAll(req: PaginationDto, params: FindOptionsWhere<T>, action: 'PAGE' | 'NOT_PAGE'): Promise<Result | void>;
+    findAll(options: { req: PaginationDto; params?: FindOptionsWhere<T> }): Promise<Result | void>;
 
     create(data: T | DeepPartial<T>): Promise<T>;
 

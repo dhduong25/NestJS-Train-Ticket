@@ -1,1 +1,1 @@
-export * from "./BadReqException"
+export * from './BadReqException';

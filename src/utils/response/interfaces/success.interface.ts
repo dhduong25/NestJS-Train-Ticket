@@ -9,8 +9,8 @@ export interface SuccessInterface {
 
 export interface PagingResponseInterface<T> {
     page: number;
-    pageNum: number;
     pageSize: number;
     pageTotal: number;
+    totalContent: number;
     content: T[];
 }

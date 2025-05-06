@@ -10,9 +10,9 @@ export abstract class BaseEntity {
     @UpdateDateColumn({ update: false })
     updatedDate: Date;
 
-    @Column({ type: 'bit', default: false })
+    @Column({ type: 'boolean', default: false })
     isDeleted: boolean;
 
-    @Column({ type: 'bit', default: true })
+    @Column({ type: 'boolean', default: true })
     isActive: boolean;
 }

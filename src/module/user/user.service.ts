@@ -12,7 +12,7 @@ export class UserService {
     constructor(private readonly userRepository: UserRepository) {}
 
     public async search(req: SearchUserDto): Promise<Result> {
-        return this.userRepository.findAll(req, {}, 'NOT_PAGE');
+        return this.userRepository.findAll({ req });
     }
 
     public async save(req: CreateUserDTO): Promise<Result> {
