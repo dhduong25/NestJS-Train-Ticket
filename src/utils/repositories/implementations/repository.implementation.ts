@@ -20,29 +20,29 @@ import { RepositoryInterface } from '../interfaces';
 
 @Injectable()
 export class RepositoryImplementation<T extends BaseEntity> implements RepositoryInterface<T> {
-    protected constructor(private readonly typeOrmRepository: Repository<T>) {}
+    protected constructor(private readonly ormRepository: Repository<T>) {}
 
     get repository(): Repository<T> {
-        return this.typeOrmRepository;
+        return this.ormRepository;
     }
 
     public async create(data: T | DeepPartial<T>): Promise<T> {
-        return this.typeOrmRepository.save(this.typeOrmRepository.create(data));
+        return this.ormRepository.save(this.ormRepository.create(data));
     }
 
     public async update(id: any, data: Partial<T> | T): Promise<T> {
-        const t: T | null = await this.typeOrmRepository.findOne({ where: { id } });
+        const t: T | null = await this.ormRepository.findOne({ where: { id } });
 
         if (!t) {
             throw new BadReqException('000', HttpStatus.BAD_REQUEST, `Data with id ${id} now found`);
         }
 
         Object.assign(t, data);
-        return await this.typeOrmRepository.save(t);
+        return await this.ormRepository.save(t);
     }
 
     public async findOne(params: FindOptionsWhere<T>): Promise<T> {
-        const t: T | null = await this.typeOrmRepository.findOne({ where: params });
+        const t: T | null = await this.ormRepository.findOne({ where: params });
 
         if (!t) {
             throw new BadReqException('999', HttpStatus.BAD_REQUEST, 'Data not found!');
@@ -71,10 +71,10 @@ export class RepositoryImplementation<T extends BaseEntity> implements Repositor
 
         switch (action) {
             case AppConstant.Page.NOT_PAGE: {
-                return Response.ok(await this.typeOrmRepository.find({ where: searchWhere, order }));
+                return Response.ok(await this.ormRepository.find({ where: searchWhere, order }));
             }
             case AppConstant.Page.PAGE: {
-                const [data, total] = await this.typeOrmRepository.findAndCount({
+                const [data, total] = await this.ormRepository.findAndCount({
                     where: searchWhere,
                     skip,
                     take: options.req.pageSize,
@@ -92,12 +92,12 @@ export class RepositoryImplementation<T extends BaseEntity> implements Repositor
                 });
             }
             default:
-                return Response.ok(await this.typeOrmRepository.find({ where: searchWhere, order }));
+                return Response.ok(await this.ormRepository.find({ where: searchWhere, order }));
         }
     }
 
     public async existing(id: string, fieldValue: any, fieldName: keyof T): Promise<boolean> {
-        const t: T | null = await this.typeOrmRepository.findOneBy({
+        const t: T | null = await this.ormRepository.findOneBy({
             [fieldName]: fieldValue,
         } as FindOptionsWhere<T>);
 
@@ -111,10 +111,10 @@ export class RepositoryImplementation<T extends BaseEntity> implements Repositor
     }): Promise<boolean> {
         switch (options.action) {
             case AppConstant.TypeDelete.SOFT:
-                await this.typeOrmRepository.softDelete((options.id as string) ?? options.params);
+                await this.ormRepository.softDelete((options.id as string) ?? options.params);
                 return true;
             case AppConstant.TypeDelete.HASH:
-                await this.typeOrmRepository.delete((options.id as string) ?? options.params);
+                await this.ormRepository.delete((options.id as string) ?? options.params);
                 return true;
             default:
                 return false;
