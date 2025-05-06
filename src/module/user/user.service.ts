@@ -1,5 +1,4 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { instanceToPlain } from 'class-transformer';
 import _ from 'lodash';
 import { AppConstant } from 'utils/constants';
 import { BadReqException } from 'utils/exception';
