@@ -12,5 +12,5 @@ export const AppConstant = {
     TypeDelete: {
         SOFT: 'SOFT',
         HASH: 'HASH',
-    },
+    } as const,
 };

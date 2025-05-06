@@ -3,6 +3,7 @@ import {
     DeepPartial,
     FindOptionsOrder,
     FindOptionsWhere,
+    IsNull,
     LessThan,
     LessThanOrEqual,
     Like,
@@ -40,10 +41,21 @@ export class RepositoryImplementation<T extends BaseEntity> implements Repositor
         return await this.typeOrmRepository.save(t);
     }
 
+    public async findOne(params: FindOptionsWhere<T>): Promise<T> {
+        const t: T | null = await this.typeOrmRepository.findOne({ where: params });
+
+        if (!t) {
+            throw new BadReqException('999', HttpStatus.BAD_REQUEST, 'Data not found!');
+        }
+
+        return t;
+    }
+
     public async findAll(options: { req: PaginationDto; params?: FindOptionsWhere<T> }): Promise<Result> {
         const searchWhere: FindOptionsWhere<T> = {
             ...this.createQuery(options.req.search),
             ...options.params,
+            deletedDate: IsNull(),
         };
 
         const skip: number = (options.req.page - 1) * options.req.pageSize;
@@ -95,7 +107,7 @@ export class RepositoryImplementation<T extends BaseEntity> implements Repositor
     public async delete(options: {
         id?: any;
         params?: FindOptionsWhere<T>;
-        action?: 'SOFT' | 'HASH';
+        action: 'SOFT' | 'HASH';
     }): Promise<boolean> {
         switch (options.action) {
             case AppConstant.TypeDelete.SOFT:
