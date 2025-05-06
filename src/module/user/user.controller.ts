@@ -1,15 +1,21 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
+import { DetailDTO } from 'utils/dtos';
 import { Result } from 'utils/response';
-import { CreateUserDTO, SearchUserDto } from './dtos';
+import { CreateUserDTO, SearchUserDto, UpdateUserDTO } from './dtos';
 import { UserService } from './user.service';
 
 @Controller({ path: 'user' })
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Post()
+    @Post('search')
     public async search(@Body() req: SearchUserDto): Promise<Result> {
         return this.userService.search(req);
+    }
+
+    @Get()
+    public async details(@Query() detail: DetailDTO): Promise<Result> {
+        return this.userService.details(detail.id);
     }
 
     @Post()
@@ -17,8 +23,13 @@ export class UserController {
         return this.userService.save(req);
     }
 
-    @Get()
-    public async details(@Query('id') id: string) {
-        return this.userService.details(id);
+    @Put()
+    public async update(@Body() req: UpdateUserDTO): Promise<Result> {
+        return this.userService.save(req);
+    }
+
+    @Delete()
+    public async delete(@Body() detail: DetailDTO): Promise<Result> {
+        return this.userService.remove(detail.id);
     }
 }

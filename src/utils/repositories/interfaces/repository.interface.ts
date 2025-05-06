@@ -5,6 +5,8 @@ import { Result } from 'utils/response';
 export interface RepositoryInterface<T> {
     findAll(options: { req: PaginationDto; params?: FindOptionsWhere<T> }): Promise<Result | void>;
 
+    findOne(params: FindOptionsWhere<T>): Promise<T>;
+
     create(data: T | DeepPartial<T>): Promise<T>;
 
     existing(id: string, fieldValue: any, fieldName: keyof T): Promise<boolean>;
