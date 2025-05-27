@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config as configDotenv } from 'dotenv';
+import * as process from 'node:process';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { join } from 'node:path';
 
