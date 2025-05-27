@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+     app:
+          build:
+               context: .
+               dockerfile: Dockerfile
+          container_name: "nest-train-ticket"
+          ports:
+               - "3000:3000"
+          volumes:
+               - .:/app
+               - /app/node_modules
+          depends_on:
+               - db
+          env_file:
+               - ".env"
+               - ".env.local"
+          environment:
+               ENVIRONMENT: "local"
+               DB_HOST: 'db'
+          networks:
+               - "app-network"
+          command: npm run start:dev
+     db:
+          image: mysql:latest
+          restart: always
+          container_name: train-ticket-mysql
+          environment:
+               MYSQL_ROOT_PASSWORD: 250202
+               MYSQL_DATABASE: train_ticket
+          ports:
+               - "3306:3306"
+          networks:
+               - "app-network"
+
+networks:
+     app-network:
+          driver: bridge
+

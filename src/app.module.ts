@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import DbConfig from 'config/db.config';
 import { UserModule } from './module/user/user.module';
 import { DbModule } from './db/db.module';
+import { LoggerModule } from './logger/logger.module';
+import { AppController } from './app.controller';
 
 @Module({
     imports: [
@@ -13,8 +15,9 @@ import { DbModule } from './db/db.module';
             envFilePath: ['.env.local', '.env'],
         }),
         DbModule,
+        LoggerModule,
     ],
-    controllers: [],
+    controllers: [AppController],
     providers: [],
 })
 export class AppModule {}
